@@ -1,21 +1,23 @@
 package location;
 
+
 public class Room extends Location {
 
 
-	public Room(String name, Location pos) {
+	public Room(String name, Location pos, String longDescription, String shortDescription) {
 
-		super(name, pos);
+		super(name, pos, longDescription, shortDescription);
 
 	}
-
+ 
 	
 
 
 @Override
 public void describeYourself(String[] strArrayDirections) {
-	System.out.println("YOu'RE at " + this.getName());
-    possibleDirections(strArrayDirections);
+	System.out.println("Du är vid " + this.getName());
+	//longDescription(player.getName());
+	possibleDirections(strArrayDirections);
 }
 
 

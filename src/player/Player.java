@@ -1,18 +1,28 @@
 package player;
 
-import location.Location;
+import java.util.ArrayList;
 
+import item.Item;
+import location.Location;
 
 public class Player {
 
 	private String name;
 	private Location currentPosition;
+	private ArrayList<Item> inventory;
+
 	public Player(String name, Location currentPosition) {
 		this.name = name;
 		this.currentPosition = currentPosition;
+		inventory = new ArrayList<Item>();
 
 	}
 
+	public void addItems(Item items) {
+		inventory.add(items);
+
+	}
+	
 	public String getName() {
 
 		return this.name;
@@ -44,19 +54,12 @@ public class Player {
 
 	}
 
-     
 	/*
-	public void moveTo(String command, Location  location) {
-		nextLocationTest = (location.getAdjacent(command));
-		System.out.println(nextLocationTest);
-		if (nextLocationTest != null) {
+	 * public void moveTo(String command, Location location) { nextLocationTest =
+	 * (location.getAdjacent(command)); System.out.println(nextLocationTest); if
+	 * (nextLocationTest != null) {
+	 * 
+	 * setLocation(nextLocationTest); }
+	 */
 
-			setLocation(nextLocationTest);
-		}
-		*/
-	
 }
-
-	
-	
-	
