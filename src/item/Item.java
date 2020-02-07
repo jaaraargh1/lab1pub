@@ -1,8 +1,8 @@
 package item;
 
-import java.util.ArrayList;
+import player.Player;
 
-public class Item {
+public abstract class Item {
 
 	private Double weight;
 	private String name;
@@ -12,12 +12,12 @@ public class Item {
 		this.description = description;
 		this.name = name;
 		this.weight = weight;
-		
+
 	}
 
 	public void printItemInfo() {
 
-		System.out.println(this.getName() + this.getDescription() + this.getWeight());
+		System.out.println(this.getName() + " " + this.getDescription() + " den väger  " + this.getWeight() + " kg.");
 
 	}
 
@@ -45,6 +45,10 @@ public class Item {
 		this.weight = weight;
 	}
 
-	
+	public String toString() {
+		return this.getName().toString().toLowerCase();
+	}
+
+	public abstract void doCommand(String command1, Player player);
 
 }

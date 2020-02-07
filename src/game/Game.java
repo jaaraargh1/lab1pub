@@ -5,51 +5,41 @@ import location.Location;
 import player.Player;
 import location.Room;
 import location.OutdoorsArea;
-import item.Item;
-import item.Tool;
+import item.*;
+//import item.Tool;
 
 public class Game {
 	private Scanner keyboard;
 	private Player player;
 	private String[] strArrayDirections;
-	private Item item;
-	private Location location;
+	
 
-	// private Location location;
 	public Game() {
-
 		keyboard = new Scanner(System.in);
-		// locations = new ArrayList<>();
+				Location ute = new OutdoorsArea("Blåhavet", "Du står i mitten av det Blåhavet, där allt är blått. Helt plötsligt så kommer Ukulelemannen med en gitarr i full fart i riktning mot"
+				+ "det okända. Han tvärnitar och skriker -WHERE THE FUCK IS MY UKULELE??????. Du bör leta upp hans ukulele ", "Ukulele mannen åker runt i cirklar av förtvivlan vid det Blåhavet.");
+		Location korallen = new Room("Korallen", "korallen, kaffet har kokat över och T.J flyter i ett hav av havremjök", "Snart kommer Korallen att svämma över av kaffe och havremjölk. T.J är sockret till kaffet. ");
+		Location ahuset = new Room("A-huset", "Alla trappor har försvunnit, du behöver hitta ett sätt att ta dig till Pulen.", "Vad gör du fortfarande i A-huset, du behöver hitta ett sätt att ta dig vidare.");
+		Location pulen = new Room("Pulen",  "Pulen, ett rum som har tagit många människosjälar, det bör finnas något av värde här bland dessa tangenter. ", "Har du inte hittat något här så dör du leta runt, må finnas en bortglömd hatt här.");
+		Location bhuset = new Room("B-huset",  "B-huset, du har nu kommit till JAVA. Se till att yoinka en dryck då du inte fick något kaffe i Korallen.",
+				"Java, Se till att konsumera koffein och undvik alla kodmonster");
+		Location donken = new OutdoorsArea("Donken",  "Du har vaknat vid Donken, när du väl lämnar den här platsen så kommer du aldrig att kunna komma tillbaka"
+				+ "", "Du är vid Donken.");
 
-		// HashMap<String, Location> paths = new HashMap<String, Location>();
-
-		// Provide information for the new items that are to be created.
-
-		// Skapa platser
-		Location ute = new OutdoorsArea("Blåhavet", null, "rofl rofl rofl rofl rofl rofl", "ute very short");
-		Location korallen = new Room("Korallen", null, "Long discription korallen", "Short description KORALLEN");
-		Location ahuset = new Room("A-huset", null, "EN JÄTTE BRA LÅNG DESCRIPTION FÖR A HUSET", "very short");
-		Location pulen = new Room("Pulen", null, "PULEN LÅNG", "EN JÄTTE BRA kort DESCRIPTION FÖR PULEN");
-		Location bhuset = new Room("B-huset", null, "BB HUSET LÅÅÅÅÅÅÅÅNG",
-				"KOOOOOOOOOOOOOOOOOORT DESCRIPTION B HUSEt");
-		Location donken = new OutdoorsArea("Donken", null, "Long discription Donken", "Short description Donken");
-
-		// spelare
+	
 		String name;
 		System.out.println("Welcome to the adventure game!\nWhat is your name?");
 		name = keyboard.nextLine();
 
-		player = new Player(name, ute);
+		player = new Player(name, donken);
 		System.out.println("Hello " + name
-				+ ", welcome to this magical world of wonder! You can move around by typing north/south/west/east. You will have to learn more commands as you play the game! (Hint: there is a command \"help\").");
-		;
+				+ "t. Du vaknar upp vid donken Ryd med en vacker minneslucka, något känns inte riktigt rätt. det är baserat på liv & död.! (Hint: there is a command \"help\").");
 
-		// Lägg till pekare så att ute får lite hjälp :))))))
-		
+
 		ute.addAdjacentLocation("east", korallen);
 		ute.addAdjacentLocation("west", ahuset);
 		ute.addAdjacentLocation("south", bhuset);
-        donken.addAdjacentLocation("south", ute);
+		donken.addAdjacentLocation("south", ute);
 		ahuset.addAdjacentLocation("north", pulen);
 		ahuset.addAdjacentLocation("east", ute);
 
@@ -59,34 +49,33 @@ public class Game {
 
 		bhuset.addAdjacentLocation("north", ute);
 
-		Tool shovel = new Tool("Shovel","A VERY RUSTY SHOVEL SHOULD PROBABLY NOT USE IT IN COMBAT, BUT YOU COULD PROBABLY DIG A SHALLOW HOLE.",(3.00));
-		Tool pen = new Tool("Pen ", " test", (2.00));
-		// currentPosition = Ahuset;
-   		player.setLocation(ute);
-        
-   		ahuset.addItems(shovel);
-        ute.addItems(pen);
+		player.setLocation(donken);
+		Shovel shovel = new Shovel("shovel",
+				"A VERY RUSTY SHOVEL SHOULD PROBABLY NOT USE IT IN COMBAT, BUT YOU COULD PROBABLY DIG A SHALLOW HOLE.",
+				(3.00));
+		Ukulele ukulele = new Ukulele("ukulele", " Du bär just nu Ukulelemannens fina ukulele, ge den till honom innan hela campus går under.", (200.00));
+		Hatt hatt = new Hatt ("hatt", "En rosa fiskehatt med kaveldun", (0.02));
+		Torch torch = new Torch("torch","Använd den här för att få lite ljus", (8.00));
+		ute.addItems(ukulele);
+		ute.addItems(shovel);
+		pulen.addItems(hatt);
+		bhuset.addItems(torch);
+
 
 	}
-	// private HashMap <String, Location> adjacentLocations;
 
 	public void run() {
+
 		while (true) {
 			String command;
-		    player.getLocation().presentItems();
-			player.getLocation().getLongDescription();
-			// player.getLocation().getLongDescription();
-			player.getLocation().describeYourself(strArrayDirections);
-			player.getLocation().printDescription(player);
+			player.getLocation().printDescription();
+			player.getLocation().describeYourself();
 			System.out.println("What do you want to do?");
 			command = keyboard.nextLine();
-			player.getLocation().move(command, player);
-			// player.moveTo(command,location);
-			// player.getLocation().longDescription(player);
-
-			player.doCommand(command);
-			// moveTo(String command, Location location
-		}
+			player.doCommand(command, player, strArrayDirections);
+		
+System.out.println("ditt nuvarande HP är följande "+ player.getHealthPoints()+".");		
+}
 	}
 
-}
+}  

@@ -2,47 +2,109 @@ package location;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import item.*;
+import java.util.Iterator;
+
+import item.Item;
+
 import player.Player;
 
+
 public abstract class Location {
+
 	private String name;
 	private HashMap<String, Location> adjacentLocations;
-	private static String[] strArrayDirections = { "north", "east", "south", "west" };
+	private static final String[] strArrayDirections = { "north", "east", "south", "west" };
 	private Location nextLocation;
 	private boolean beenHere;
 	private String longDescription;
 	private String shortDescription;
 	private ArrayList<Item> listOfAllItems;
-    private Item Item;
+	private Location currentPositionforLocation;
 	
-    public Location(String name, Location pos, String longDescription, String shortDescription) {
+
+
+	public Location(String name, String longDescription, String shortDescription) {
 		this.name = name;
 		this.beenHere = false;
 		this.longDescription = longDescription;
 		this.shortDescription = shortDescription;
 		listOfAllItems = new ArrayList<Item>();
-
 		adjacentLocations = new HashMap<String, Location>();
 	}
 
+
+
+	public boolean checkItems(String command1) {
+		for (Item item : listOfAllItems)
+			if (command1.equals(String.valueOf(item))) {
+				return true;
+			}
+
+		return false;
+	}
+
+	public ArrayList<Item> getListOfAllItems() {
+		return this.listOfAllItems;
+	}
+
+	public void setLocation(Location currentPositionforLocation) {
+
+		this.currentPositionforLocation = currentPositionforLocation;
+
+	}
+
+	public Location getLocation() {
+
+		return this.currentPositionforLocation;
+	}
+
+	public Item removeItem(String command1) {
+
+		Iterator<Item> itemListIterator = listOfAllItems.iterator();
+
+		while (itemListIterator.hasNext()) {
+
+			Item i = itemListIterator.next();
+			// Item b = i;
+			if (i.getName().equals(command1)) {
+
+				System.out.println("tar nu upp itemet " + (command1));
+				// System.out.println(player.getLocation());
+				itemListIterator.remove();
+
+				return i;
+			}
+		}
+		return null;
+	}
+
 	public void presentItems() {
-	for (Item Item : listOfAllItems) {
-	   Item.printItemInfo();
-	} }
-	
-	public void printDescription(Player player) {
+		System.out.println("Följande items finns vid platsen :^)");
+		for (Item item : getListOfAllItems()) {
+			System.out.println(item.getName() + "  " + item.getWeight() + "  " + item.getDescription());
+
+		}
+
+	}
+
+	public Item getItem(String command1) {
+
+		for (Item item : listOfAllItems)
+
+			return item;
+		return null;
+	}
+
+	public void printDescription() {
 		if (this.beenHere == false) {
 			System.out.println(this.getLongDescription());
 
-			System.out.println("xdddddddddddd");
 			this.beenHere = true;
 		} else {
 			System.out.println(this.getShortDescription());
 		}
 
 	}
-	
 
 	public void setShortDescription(String shortDescription) {
 		this.shortDescription = shortDescription;
@@ -78,14 +140,13 @@ public abstract class Location {
 		return strArrayDirections;
 	}
 
-	public static void setStrArrayDirections(String[] strArrayDirections) {
-		Location.strArrayDirections = strArrayDirections;
-	}
+	
+
+
 
 	@Override
 	public String toString() {
-		// Nu kan vi konvertera Location-objekt
-		// till strängar och det blir snyggt!
+
 		return this.getName();
 	}
 
@@ -97,7 +158,7 @@ public abstract class Location {
 		return adjacentLocations.get(direction);
 	}
 
-	public abstract void describeYourself(String[] strArrayDirections);
+	public abstract void describeYourself();
 
 	public void move(String command, Player name) {
 
@@ -112,11 +173,13 @@ public abstract class Location {
 	public void possibleDirections(String[] strArrayDirectons) {
 
 		for (int i = 0; i < getStrArrayDirections().length; i++) {
-
-			if (getAdjacent(getStrArrayDirections()[i]) != null) {
-				System.out.println("Till " + getStrArrayDirections()[i] + " hittar du "
-						+ (getAdjacent(getStrArrayDirections()[i])));
-
+            
+                if (getAdjacent(getStrArrayDirections()[i]) != null) {
+				System.out.print("Till " + getStrArrayDirections()[i]);
+			    if(getAdjacent(getStrArrayDirections()[i]) instanceof Room)
+                {System.out.print(" finns det en dörr  som leder till ");} else 
+                {System.out.print(" finns det en väg som leder till ");}
+System.out.println(" "+(getAdjacent(getStrArrayDirections()[i]))+ ".");
 			}
 
 		}
@@ -124,6 +187,6 @@ public abstract class Location {
 
 	public void addItems(Item items) {
 		listOfAllItems.add(items);
-
+    
 	}
 }

@@ -5,25 +5,11 @@ import java.util.Random;
 
 public class OutdoorsArea extends Location {
 	private String weather;
-	private int random_int;
-	private static String[] strArrayDirections = { "north", "east", "south", "west" };
 
-	public OutdoorsArea(String name, Location pos, String longDescription, String shortDescription) {
-		super(name, pos, longDescription, shortDescription);
+	public OutdoorsArea(String name, String longDescription, String shortDescription) {
+		super(name, longDescription, shortDescription);
 
 		weather = randomWeather();
-	}
-
-	public int getRandom_int() {
-		return random_int;
-	}
-
-	public void setRandom_int(int random_int) {
-		this.random_int = random_int;
-	}
-
-	public static String[] getstrArrayDirections() {
-		return strArrayDirections;
 	}
 
 	public String randomWeather() {
@@ -49,23 +35,13 @@ public class OutdoorsArea extends Location {
 
 	}
 
-	public void possibleDirections(String[] strArrayDirectons) {
-
-		for (int i = 0; i < getStrArrayDirections().length; i++) {
-
-			if (getAdjacent(getStrArrayDirections()[i]) != null) {
-				System.out.println("Till " + getStrArrayDirections()[i] + " hittar du "
-						+ (getAdjacent(getStrArrayDirections()[i])));
-
-			}
-
-		}
-	}
-
 	@Override
-	public void describeYourself(String[] strArrayDirections) {
-		System.out.println("YOu'RE at " + this.getName());
+	public void describeYourself() {
+		// player.getLocation().printDescription(player);
+
 		System.out.println(randomWeather());
-		possibleDirections(strArrayDirections);
+
+		// possibleDirections(strArrayDirections);
+
 	}
 }
