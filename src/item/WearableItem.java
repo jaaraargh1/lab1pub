@@ -1,22 +1,19 @@
 package item;
+
 import player.Player;
-public class WearableItem extends Item {
+
+//TODO: Komplettering: Här skall ni implementera putOn enligt labbhandledningen. 
+public abstract class WearableItem extends Item {
 
 	public WearableItem(String name, String description, double weight) {
 		super(name, description, weight);
 	}
-	
-	
-	@Override
-	public void doCommand(String command1, Player player) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	/*public void putOn(String command1, Player player) {   
-		if (player.checkInventory(command1) == true && player.getWearingHatt()== false) {
-			player.setWearingHatt();		
-		}
-	*/
-	
+	@Override
+	public abstract void doCommand(String command, Player player);
+
+	public abstract void putOn(Player player);
+
+	public abstract void setWearinItem(Player player);
+
 }

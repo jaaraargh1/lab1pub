@@ -84,6 +84,7 @@ public class OutdoorsArea extends Location {
 		// TODO: Kommentar: Istället för att bara skriva ut ett väder
 		// kanske ni borde faktiskt ändra väder-variabeln.
 		System.out.println(this.weather);
+		System.out.println("ditt nuvarande HP är följande " + player.getHealthPoints() + ".");
 
 	}
 }

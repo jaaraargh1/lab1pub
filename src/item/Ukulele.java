@@ -10,8 +10,7 @@ public class Ukulele extends Tool {
 	}
 	public void doCommand(String command, Player player) {
 
-		if (command.equals("ukulele")) {
-			player.setTorch();
+		if (command.equals("use")) {
 			System.out.println("Du spelar skitdåligt på Ukulelemannens fina Ukulele, du bör nog ge skiten till honom. GgggggGGGGGGgggggGGG annars dödar han dig.");
 			}
 	

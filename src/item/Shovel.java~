@@ -40,10 +40,10 @@ public class Shovel extends Tool {
  * Do command for dig.
  * 
  */
-    //TODO: Kommentar 2: Här skulle ni exempelvis kunna testa direkt för kommandot dig.
+
 	@Override
 	public void doCommand(String command, Player player) {
-		if (command.equals("dig"));{
+		if (command.equals("use")) {
 			dig(player);
 
 		}

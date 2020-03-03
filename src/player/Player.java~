@@ -3,6 +3,7 @@ package player;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
+
 import item.*;
 import location.*;
 
@@ -11,6 +12,7 @@ public class Player {
 	private Location currentPosition;
 	private ArrayList<Item> inventory;
 	private ArrayList<Item> currentlyWearing;
+
 	private int healthPoints;
 
 	private boolean litTorch;
@@ -246,61 +248,60 @@ public class Player {
 	// jättelång. Låt istället klasserna själva kolla på kommandot och
 	// avgöra om de skall göra något.
 	public void doCommand(String command, Scanner keyboard) {
-		// TODO: Kommentar 2: Help hör antagligen inte till
-		// player heller utan snarare till game.
+		String command1;
+		if (command.equals("help")) {
+			System.out.println("Du kan röra dig igenom att skriva North,East,West,South.\n fråga om "
+					+ "vart man kan gå igenom att skriva 'directions', 'look'. har'u en torch så kan du använda 'light', 'ukulele'."
+					+ "Finns även ett kommando för 'use'.");
 
+		}
 		if (command.equals("north") || (command.equals("west") || command.equals("east")) || command.equals("south"))
 			;
-		getLocation().doCommand(command, this);
-		// TODO: Komplettering 2: Samma komplettering
-		// nedanför. Ge location kommandot utan några
-		// kontroller och låt den testa själv. Som det ser ut
-		// nu gör ni dubbla kontroller. En i player och en i
-		// location.
+		getLocation().move(command, this);
+
 		if (command.equals("directions")) {
 
 			getLocation().doCommand(command, this);
 
 		}
 		if (command.equals("look")) {
-			getLocation().doCommand(command, this);
+			printCurrentlyWearing();
+			this.getLocation().presentItems();
+			this.getLocation().printDescription();
 
 		}
-
-		// TODO: Kommentar 2: Detta är väldigt liknande
-		// kompletteringen nedanför. Istället för att lägga
-		// hela kontrollen i player så är det snarare något som
-		// Location-klassen skulle kunna sköta själv.
 		if (command.equals("take")) {
 			System.out.println("What do you want to take?");
-			command = keyboard.nextLine();
-			getLocation().doCommand(command, this);
+			command1 = keyboard.nextLine();
+			if (this.getLocation().getListOfAllItems().isEmpty()) {
+				System.out.println("Finns inget att hämta här");
+			} else {
+				if (this.getLocation().checkItems(command1) == true) {
 
+					this.addItem(command1);
+
+				} else
+					System.out.println("Itemet finns ej här.");
+			}
 		}
 
 		if (command.equals("items")) {
-			System.out.println("ditt nuvarande HP är följande " + getHealthPoints() + ".");
 
 			printInventory();
 		}
-		// TODO: Komplettering 2: Detta gäller både "wear"- och
-		// "use"-kommandot. När ni gör på det här sättet så gör
-		// doCommand ingenting med själva kommandot. Den agerar
-		// snarare som en "use" eller "wear"-metod. Kommandot
-		// som ni skickar med fyller inget syfte. Dessutom görs
-		// kontrollen fortfarande i "Player" klassen. Låt alla
-		// items ta emot kommandot och låt kontrollen av
-		// kommandot ligga i item-klasserna själva istället.
 
 		if (command.equals("wear")) {
-			System.out.println("Vad vill du ta på dig herpderp? ");
-			command = keyboard.nextLine();
+			System.out.println("Vad vill du ta på dig herpderp? Notera att du bara kan bära en hatt"
+					+ "allt annat är för fairies, UwU ");
+			command1 = keyboard.nextLine();
 			for (Item item : inventory) {
 
-				item.doCommand(command, this);
+				if (checkInventory(command1) == true) {
+					item.doCommand(command1, this);
 
+				}
 			}
-			equipItem(command);
+			this.equipItem(command1);
 
 		}
 
@@ -308,16 +309,14 @@ public class Player {
 
 		{
 			System.out.println("What item do you want to use?");
-			command = keyboard.nextLine();
-			System.out.println("what do u want to do with it? hint dig");
+			command1 = keyboard.nextLine();
 
 			for (Item item : inventory) {
-				command = keyboard.nextLine();
-				item.doCommand(command, this);
-
+				if (checkInventory(command1) == true) {
+					item.doCommand(command, this);
+				}
 			}
 		}
-
 	}
 
 }

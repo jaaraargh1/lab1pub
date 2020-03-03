@@ -1,7 +1,6 @@
 package item;
 import player.Player;
 public class Torch extends Tool {
-private boolean litTorch = false;
 	public Torch(String name, String description, double weight) {
 		super(name, description, weight);
 		// TODO Auto-generated constructor stub
@@ -16,10 +15,9 @@ public void doCommand(String command, Player player) {
 	
 		
 
-	if (command.equals("light")) {
+	if (command.equals("use")) {
 		player.setTorch();
-		player.deleteItemInventory("torch");
-		System.out.println("Torchen försvann ur ditt inventory, men du brinner permanent");
+		System.out.println("din ljuskälla ser ut att vara oändlig? what is this SORCERY?");
 		}
 
 
